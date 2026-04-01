@@ -1,8 +1,10 @@
+![OpenClaw Plugin](https://img.shields.io/badge/OpenClaw-plugin-blue)
+
 # WraithVector Governance Plugin for OpenClaw
 
 Runtime enforcement and cryptographic audit trail for OpenClaw agents.
 
-> Early access — contact wraithvector0@gmail.com to get your API key.
+> Early access. Request an API key: wraithvector0@gmail.com
 
 ## What it does
 
@@ -11,6 +13,33 @@ Every tool call made by your OpenClaw agent is evaluated by WraithVector before 
 - `exec` — command scope control (only allowed commands execute)
 - `read` — path scope control (only allowed paths are accessible)
 - Every decision generates a cryptographic audit trail (EU AI Act / DORA compliant)
+
+## Architecture
+```
+Agent tool call
+      ↓
+before_tool_call hook
+      ↓
+WraithVector governance API
+      ↓
+ALLOW / BLOCK
+      ↓
+OpenClaw executes or stops
+```
+
+## Example policy
+```json
+{
+  "exec": {
+    "allowed_roles": ["*"],
+    "allowed_commands": ["ls", "pwd", "echo"]
+  },
+  "read": {
+    "allowed_roles": ["*"],
+    "allowed_paths": ["~/.openclaw/workspace/"]
+  }
+}
+```
 
 ## Why this matters
 
@@ -25,22 +54,22 @@ openclaw gateway restart
 ```
 
 ## Test ALLOW
-
-In OpenClaw UI:
 ```
 run the command: ls
 ```
 
 ## Test BLOCK
-
-In OpenClaw UI:
 ```
 run the command: rm -rf test
 ```
 
-## Audit evidence
+## Contributing
 
-Every decision is stored with a SHA-256 cryptographic hash verifiable by third parties.
+Contributions welcome. Open issues:
+
+- Add `write` tool policy
+- Add `web_fetch` domain restrictions
+- Improve policy engine
 
 ## License
 
