@@ -14,6 +14,8 @@ export function register(api) {
     }
 
     try {
+const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 3000);
       const res = await fetch("https://app.wraithvector.com/api/governance", {
         method: "POST",
         headers: {
@@ -30,8 +32,11 @@ export function register(api) {
           args: event.params,
           run_id: event.runId || "",
           call_id: event.toolCallId || "",
+
         }),
+signal: controller.signal
       });
+clearTimeout(timeout);
 
       if (!res.ok) {
         return {
