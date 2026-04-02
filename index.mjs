@@ -1,6 +1,7 @@
 export function register(api) {
   api.on("before_tool_call", async (event) => {
     const toolName = event.toolName || event.tool_name || "unknown";
+    console.log("[Wraithvector] intercept tool:", toolName);
     const command = event.params?.command || event.params?.cmd || "";
     const path = event.params?.path || event.params?.file || "";
     const apiKey = process.env.WRAITHVECTOR_API_KEY || "";
@@ -16,6 +17,14 @@ export function register(api) {
     try {
 const controller = new AbortController();
 const timeout = setTimeout(() => controller.abort(), 3000);
+
+      console.log("[WraithVector] sending governance check:", {
+  tool: toolName,
+  command,
+  path
+});
+
+      
       const res = await fetch("https://app.wraithvector.com/api/governance", {
         method: "POST",
         headers: {
@@ -54,8 +63,12 @@ clearTimeout(timeout);
         };
       }
 
+      console.log("[WraithVector] decision:", data.decision, data.reason);
+
       return {};
     } catch (err) {
+            console.error("[WraithVector] governance unreachable:", err?.message);
+
       return {
         block: true,
         blockReason: "WraithVector: governance API unreachable. Set WRAITHVECTOR_FAIL_OPEN=true to allow actions when offline.",
