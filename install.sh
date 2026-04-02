@@ -2,6 +2,11 @@
 #!/usr/bin/env bash
 
 set -e
+command -v curl >/dev/null 2>&1 || {
+  echo "✗ curl is required but not installed."
+  exit 1
+}
+
 
 PLUGIN_DIR="$HOME/.openclaw/workspace/plugins/wraithvector"
 
