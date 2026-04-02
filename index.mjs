@@ -1,10 +1,8 @@
 export function register(api) {
   api.on("before_tool_call", async (event) => {
-console.log("WV_EVENT:", JSON.stringify(event, null, 2));
     const toolName = event.toolName || event.tool_name || "unknown";
     const command = event.params?.command || event.params?.cmd || "";
     const path = event.params?.path || event.params?.file || "";
-
     const apiKey = process.env.WRAITHVECTOR_API_KEY || "";
 
     if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
@@ -30,10 +28,11 @@ console.log("WV_EVENT:", JSON.stringify(event, null, 2));
           command: command,
           path: path,
           args: event.params,
-run_id: event.runId || "",
-call_id: event.toolCallId || "",
+          run_id: event.runId || "",
+          call_id: event.toolCallId || "",
         }),
-      })
+      });
+
       if (!res.ok) {
         return {
           block: true,
