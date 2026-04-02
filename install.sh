@@ -5,7 +5,7 @@ set -e
 
 PLUGIN_DIR="$HOME/.openclaw/workspace/plugins/wraithvector"
 
-BASE_URL="https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw-/main"
+BASE_URL="https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw/main"
 
 echo ""
 
