@@ -121,7 +121,10 @@ OpenClaw agent tool call
 ```
 
 **Fail-closed by default** — if WraithVector is unreachable, actions are blocked to protect your system.
-Set `WRAITHVECTOR_FAIL_OPEN=true` to allow actions when offline (development only).
+Set `WRAITHVECTOR_FAIL_OPEN=true` to allow actions when offline (development only)
+
+If the governance API is unreachable, the plugin blocks the action locally (fail-closed).  
+No audit record is generated because the governance engine was not reached.
 
 ---
 
