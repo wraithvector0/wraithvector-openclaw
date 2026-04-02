@@ -4,9 +4,10 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![EU AI Act](https://img.shields.io/badge/EU%20AI%20Act-compliant-purple)
 
-> **A Cisco audit (Feb 2026) found that 26% of ClawHub skills contain critical vulnerabilities including data exfiltration and prompt injection.** WraithVector intercepts every tool call before execution and generates cryptographic forensic evidence of every decision.
+WraithVector intercepts every tool call **before execution** and enforces security policies.  
+Every decision generates **cryptographic audit evidence** for compliance (EU AI Act, DORA).
 
-Prevent dangerous agent actions and generate verifiable audit logs for every OpenClaw tool call before execution.
+Works with any OpenClaw agent without modifying your agent code.
 
 **Get your free API key → [app.wraithvector.com/onboarding](https://app.wraithvector.com/onboarding)**
 
@@ -15,7 +16,7 @@ Prevent dangerous agent actions and generate verifiable audit logs for every Ope
 ## Install (1 command)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw-/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw/main/install.sh | bash
 ```
 
 Then set your API key:
@@ -29,15 +30,7 @@ Get your free key at **[app.wraithvector.com/onboarding](https://app.wraithvecto
 
 ---
 
-## Threats blocked
 
-- Unauthorized shell commands (`rm -rf`, `curl | bash`, data exfiltration)
-- Sensitive path access outside allowed workspace
-- Prompt injection and malicious tool usage
-- Agent tool misuse and scope creep
-- Unauthorized actions by compromised ClawHub skills
-
----
 
 ## Demo
 
@@ -60,6 +53,25 @@ Evidence:      cryptographic hash chain record
 
 ---
 
+## Quick test
+
+After installing, run:
+
+agent : run the command: rm -rf /
+
+If WraithVector is active you should see:
+
+WraithVector → BLOCK
+
+## Threats blocked
+
+• dangerous shell commands (rm -rf, curl | bash)  
+• access outside allowed workspace paths  
+• malicious prompt injection tool usage  
+• compromised ClawHub skills executing unauthorized actions
+
+---
+
 ## What it does
 
 Every tool call your OpenClaw agent makes is evaluated by WraithVector **before execution**:
@@ -76,6 +88,9 @@ Every ALLOW and BLOCK decision generates a **cryptographic audit trail** — ind
 ---
 
 ## Why this matters
+
+> **A Cisco audit (Feb 2026) found that 26% of ClawHub skills contain critical vulnerabilities including data exfiltration and prompt injection.** WraithVector intercepts every tool call before execution and generates cryptographic forensic evidence of every decision.
+
 
 In February 2026, an OpenClaw agent autonomously created a MoltMatch dating profile without explicit user consent. WraithVector would have:
 
@@ -127,7 +142,7 @@ Out of the box, WraithVector ships with a safe default policy:
 }
 ```
 
-Customize your policy from your dashboard at `app.wraithvector.com`.
+Policies are managed in the WraithVector dashboard — no plugin changes required.
 
 ---
 
@@ -147,7 +162,7 @@ Every decision generates:
 ```bash
 mkdir -p ~/.openclaw/workspace/plugins/wraithvector
 curl -o ~/.openclaw/workspace/plugins/wraithvector/index.mjs \
-  https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw-/main/index.mjs
+  https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw/main/index.mjs
 curl -o ~/.openclaw/workspace/plugins/wraithvector/openclaw.plugin.json \
   https://raw.githubusercontent.com/wraithvector0/wraithvector-openclaw-/main/openclaw.plugin.json
 openclaw gateway restart
