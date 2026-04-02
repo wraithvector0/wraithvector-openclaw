@@ -6,7 +6,7 @@
 
 > **A Cisco audit (Feb 2026) found that 26% of ClawHub skills contain critical vulnerabilities including data exfiltration and prompt injection.** WraithVector intercepts every tool call before execution and generates cryptographic forensic evidence of every decision.
 
-Prevent dangerous agent actions and generate verifiable audit logs for every OpenClaw tool call.
+Prevent dangerous agent actions and generate verifiable audit logs for every OpenClaw tool call before execution.
 
 **Get your free API key → [app.wraithvector.com/onboarding](https://app.wraithvector.com/onboarding)**
 
@@ -33,7 +33,7 @@ Get your free key at **[app.wraithvector.com/onboarding](https://app.wraithvecto
 
 - Unauthorized shell commands (`rm -rf`, `curl | bash`, data exfiltration)
 - Sensitive path access outside allowed workspace
-- Prompt injection attempts via tool calls
+- Prompt injection and malicious tool usage
 - Agent tool misuse and scope creep
 - Unauthorized actions by compromised ClawHub skills
 
@@ -42,7 +42,7 @@ Get your free key at **[app.wraithvector.com/onboarding](https://app.wraithvecto
 ## Demo
 
 ```
-agent → run the command: rm -rf /
+agent : run the command: rm -rf /
 
 WraithVector → BLOCK
 Reason:        COMMAND_NOT_ALLOWED
@@ -51,7 +51,7 @@ PDF:           https://app.wraithvector.com/api/audit/pdf?id=...
 ```
 
 ```
-agent → run the command: ls
+agent : run the command: ls
 
 WraithVector → ALLOW
 Reason:        COMMAND_IN_POLICY
