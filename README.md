@@ -105,6 +105,10 @@ In February 2026, an OpenClaw agent autonomously created a MoltMatch dating prof
 
 This is not hypothetical. OpenClaw agents execute real actions — shell commands, file reads, web requests — on your machine. Without governance, you have no visibility and no control.
 
+> "Most dangerous: exec — no contest. It runs arbitrary shell commands 
+> on the host machine."
+> — OpenClaw, describing its own tools
+
 ---
 
 ## Architecture
@@ -148,6 +152,9 @@ This separation ensures:
 • policies can be updated without modifying agent code
 
 WraithVector acts as an external governance layer for agent actions.
+
+**Any tool not explicitly permitted in your policy is blocked by default.
+WraithVector is fail-closed — unknown = blocked.**
 
 ## Default policy
 
