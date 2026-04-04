@@ -16,7 +16,7 @@ export function register(api) {
 
     try {
 const controller = new AbortController();
-const timeout = setTimeout(() => controller.abort(), 3000);
+const timeout = setTimeout(() => controller.abort(), 8000);
 <<<<<<< HEAD
 
       console.log("[WraithVector] sending governance check:", {
