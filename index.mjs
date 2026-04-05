@@ -69,10 +69,13 @@ Audit available in WraithVector dashboard.`,
 
         /* ---- API error real ---- */
 
-        if (!res.ok) {
-          throw new Error(`governance error ${res.status}`);
-        }
-
+        /* ---- API error real ---- */
+if (!res.ok) {
+  return {
+    block: true,
+    blockReason: `WraithVector BLOCK\nTool: ${toolName}\nReason: ${data.reason || "policy violation"}\nAudit: ${data.pdf_url || "see dashboard"}`,
+  };
+}
         console.log("[WraithVector] decision:", data?.decision);
         return {};
 
