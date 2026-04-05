@@ -1,5 +1,7 @@
 
-# WraithVector — Runtime Governance for OpenClaw Agents
+ # WraithVector — Control what your AI agent is allowed to do
+ Intercepts every OpenClaw tool call before execution.
+Applies policy. Blocks dangerous actions. Generates audit evidence.
 
 ![demo](./demo.gif)
 
@@ -30,6 +32,8 @@ WraithVector intercepts every tool call **before execution**.
 Every decision generates cryptographic audit evidence for EU AI Act and DORA compliance.
 
 **Works with any OpenClaw agent. No code changes required.**
+
+Unlike guardrails that analyse prompts, WraithVector enforces policy at the tool execution layer.
 
 ---
 
