@@ -8,10 +8,10 @@ export function register(api) {
     const path = event.params?.path || event.params?.file || "";
 
     const apiKey = process.env.WRAITHVECTOR_API_KEY || "";
+    const FAIL_OPEN = process.env.WRAITHVECTOR_FAIL_OPEN === "true";
 
     if (!apiKey || apiKey === "YOUR_API_KEY_HERE") {
       console.warn("[WraithVector] No API key set. Get yours at https://app.wraithvector.com/onboarding");
-
       return {
         block: true,
         blockReason:
@@ -19,22 +19,18 @@ export function register(api) {
       };
     }
 
-    let res;
-
     for (let attempt = 0; attempt < 3; attempt++) {
-
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 8000);
 
       try {
-
         console.log("[WraithVector] sending governance check:", {
           tool: toolName,
           command,
           path,
         });
 
-        res = await fetch("https://app.wraithvector.com/api/v1/governance", {
+        const res = await fetch("https://app.wraithvector.com/api/v1/governance", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -45,16 +41,14 @@ export function register(api) {
           body: JSON.stringify({
             event: "tool_request",
             tool_name: toolName,
-            command: command,
-            path: path,
+            command,
+            path,
             args: event.params,
             run_id: event.runId || "",
             call_id: event.toolCallId || "",
           }),
           signal: controller.signal,
         });
-
-        clearTimeout(timeout);
 
         if (!res.ok) throw new Error("bad response");
 
@@ -63,31 +57,43 @@ export function register(api) {
         if (data.decision === "BLOCK") {
           return {
             block: true,
-            blockReason: `WraithVector BLOCKED: ${data.reason}`,
+            blockReason:
+`WraithVector intercepted this action.
+
+Tool: ${toolName}
+Reason: ${data.reason}
+
+This action was blocked by the WraithVector governance layer.`,
           };
         }
 
         console.log("[WraithVector] decision:", data.decision, data.reason);
-
         return {};
 
       } catch (err) {
-
-        clearTimeout(timeout);
-
         console.warn("[WraithVector] attempt failed:", attempt + 1);
 
         if (attempt === 2) {
-          console.error("[WraithVector] governance unreachable:", err?.message);
+          if (FAIL_OPEN) {
+            console.warn("[WraithVector] governance unreachable, FAIL_OPEN active");
+            return {};
+          }
 
+          console.error("[WraithVector] governance unreachable:", err?.message);
           return {
             block: true,
             blockReason:
-              "WraithVector: governance API unreachable. Set WRAITHVECTOR_FAIL_OPEN=true to allow actions when offline.",
+`WraithVector governance service is unreachable.
+
+Action blocked for safety.
+
+Set WRAITHVECTOR_FAIL_OPEN=true to allow actions when the governance API is offline.`,
           };
         }
 
         await new Promise((r) => setTimeout(r, 1000));
+      } finally {
+        clearTimeout(timeout);
       }
     }
   });
