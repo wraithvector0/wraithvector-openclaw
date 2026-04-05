@@ -347,12 +347,4 @@ Questions: fran@wraithvector.com
 
 
 
-**6. "Allowlist, not blocklist" made explicit**
-One line but it signals security maturity to anyone who knows the difference.
 
-**7. Removed the `allowed_roles` from default policy**
-Unnecessary complexity at first glance. Simplify for first impressions.
-
----
-
-**One thing missing until Sunday:** replace `![demo](./demo.gif)` with the actual GIF. That placeholder at the top is the most important line in the entire file.
