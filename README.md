@@ -282,7 +282,7 @@ MIT
 *WraithVector — AI Agent Governance for regulated environments.*  
 *EU AI Act · DORA · GDPR*
 
-Questions: support@wraithvector.com
+Questions: fran@wraithvector.com
 ```
 
 
