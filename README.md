@@ -11,8 +11,7 @@ Here's the rewritten README. Changes explained after.
 > enforcing what I can and can't do."*  
 > — an OpenClaw agent, describing its own governance layer
 
-[![OpenClaw Plugin](badge)] [![License: MIT](badge)] [![EU AI Act](badge)]
-
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ---
 
 ## Your AI agent is executing real commands on your machine.
