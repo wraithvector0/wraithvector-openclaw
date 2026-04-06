@@ -3,7 +3,9 @@
  Intercepts every OpenClaw tool call before execution.
 Applies policy. Blocks dangerous actions. Generates audit evidence.
 
-![demo](./demo.gif)
+<p align="center">
+<img src="wraithvector-openclaw-gif.gif" width="90=">
+</p>
 
 > *"WraithVector is the governance layer sitting on top of OpenClaw,  
 > enforcing what I can and can't do."*  
